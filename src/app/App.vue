@@ -9,7 +9,7 @@ import { Header } from '../shared/ui/header';
 import { AboutMe } from '../shared/ui/about-me';
 import { Technology } from '../shared/ui/technology';
 import { Title } from '../shared/ui/title';
-
+import { Snackbar } from '../shared/ui/snackbar';
 
 
 const dataFetch = useItems()
@@ -34,6 +34,8 @@ onMounted(async () => {
     <AddProject></AddProject>
 
     <Table :data="dataFetch.items"></Table>
+
+    <Snackbar></Snackbar>
   </main>
 
 </template>

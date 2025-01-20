@@ -42,7 +42,7 @@ import { Title } from '../title';
     display: flex;
     gap: 50px;
     background: #000;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 700;
     padding: 20px;
 }

@@ -35,10 +35,10 @@ defineProps<{path: string, src: string, title: string, desc: string, color: stri
   text-transform: capitalize;
 }
 .card_desc {
-  display: -webkit-box; /* Используется для ограничения видимых строк */
+  display: -webkit-box; 
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  overflow: hidden;    /* Обрезает текст, который выходит за пределы */
-  text-overflow: ellipsis; /* Добавляет троеточие */
+  overflow: hidden;    
+  text-overflow: ellipsis; 
 }
 </style>

@@ -12,9 +12,9 @@ interface AddItem {
     product_amount: number;
 }
 interface UpdateItem {
-  id: number;
-  product_name: string;
-  product_amount: number;
+    id: number;
+    product_name: string;
+    product_amount: number;
 }
 
 export const useItems = defineStore('useItems', {
@@ -27,29 +27,63 @@ export const useItems = defineStore('useItems', {
             this.items = data.content.rows
 
         },
-        async addItem(payload: AddItem) { 
-            const { data } = await axios.post(`http://dev.mindwave.kz/api/sandbox/crud`, payload)
-            if(data.success){
+        async addItem(payload: AddItem) {
+            const snackbar = useSnackbar();
+            snackbar.show = false;
+            try {
+                const { data } = await axios.post(`http://dev.mindwave.kz/api/sandbox/crud`, payload)
+            if (data.success) {
                 await this.getItems()
+                snackbar.show = true;
+                snackbar.message = "Item added successfully!";
+                snackbar.color = "green";
+            }else{
+                snackbar.show = true;
+                snackbar.message = "error occurred!";
+                snackbar.color = "red";
             }
             return data
+            }catch{
+                snackbar.show = true;
+                snackbar.message = "error occurred!";
+                snackbar.color = "red";
+            }
         },
-        async updateItem(payload: UpdateItem) { 
+        async updateItem(payload: UpdateItem) {
+
+            const snackbar = useSnackbar();
+            snackbar.show = false;
             const body = {
                 product_amount: payload.product_amount,
                 product_name: payload.product_name
             }
-            
+
             const { data } = await axios.put(`http://dev.mindwave.kz/api/sandbox/crud/${payload.id}`, body)
-            if(data.success){
+            if (data.success) {
                 await this.getItems()
+                snackbar.show = true;
+                snackbar.message = "Item updated successfully!";
+                snackbar.color = "yellow";
+            }else{
+                snackbar.show = true;
+                snackbar.message = "error occurred!";
+                snackbar.color = "red";
             }
             return data
         },
         async deleteItem(id: number) {
+            const snackbar = useSnackbar();
+            snackbar.show = false;
             const { data } = await axios.delete(`http://dev.mindwave.kz/api/sandbox/crud/${id}`)
-            if(data.success){
+            if (data.success) {
                 await this.getItems()
+                snackbar.show = true;
+                snackbar.message = "Item deleted successfully!";
+                snackbar.color = "orange";
+            }else{
+                snackbar.show = true;
+                snackbar.message = "error occurred!";
+                snackbar.color = "red";
             }
         }
     }
@@ -67,5 +101,18 @@ export const usePopUp = defineStore('usePopUp', {
         showEditPopUp(payload: boolean) {
             this.showEdit = payload
         },
+    }
+})
+
+export const useSnackbar = defineStore('useSnackbar', {
+    state: () => ({
+        show: false as boolean,
+        message: '' as string,
+        color: '' as string
+    }),
+    actions: {
+        showSnackbar(payload: boolean) {
+            this.show = payload
+        }
     }
 })
